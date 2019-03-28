@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function loadModels() {
     const loader = new THREE.GLTFLoader()
-    const onLoad = ( gltf, position ) => {
+    const onLoad = ( gltf, position, scale ) => {
       const model = gltf.scene.children[ 0 ]
       cat = model
       model.position.copy(position)
-      model.scale.set(0.01, 0.01, 0.01)
+      model.scale.copy(scale)
       const animation = gltf.animations[ 0 ]
 
       // const mixer = new THREE.AnimationMixer( model )
@@ -74,57 +74,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const onError = ( errorMessage ) => { console.log( errorMessage ) }
 
     const bananaPosition = new THREE.Vector3( 0, 0, 0 )
-  // const bananaScale = + "0.01, 0.01, 0.01" +
-  loader.load( 'models/banana.glb', gltf => onLoad( gltf, bananaPosition), onProgress, onError )
+    const bananaScale = new THREE.Vector3(0.01, 0.01, 0.01)
+    loader.load( 'models/banana.glb', gltf => onLoad( gltf, bananaPosition, bananaScale), onProgress, onError )
 
-  const lemonPosition = new THREE.Vector3( 7.5, 0, -10 )
-  // const lemonScale = "0.8,0.8,0.8"
-  loader.load( 'models/lemon.glb', gltf => onLoad( gltf, lemonPosition ), onProgress, onError )
+    const lemonPosition = new THREE.Vector3( 1, 0, 0)
+    const lemonScale = new THREE.Vector3(0.8,0.8,0.8)
+    loader.load( 'models/lemon.glb', gltf => onLoad( gltf, lemonPosition, lemonScale ), onProgress, onError )
 
-  const orangePosition = new THREE.Vector3( -10, 0, 0 )
-  // const orangeScale = "0.3,0.3,0.3"
-  loader.load( 'models/orange.glb', gltf => onLoad( gltf, orangePosition ), onProgress, onError )
+    const orangePosition = new THREE.Vector3( 4, 0, 0 )
+    const orangeScale = new THREE.Vector3(0.3,0.3,0.3)
+    loader.load( 'models/orange.glb', gltf => onLoad( gltf, orangePosition, orangeScale ), onProgress, onError )
 
-  const pearPosition = new THREE.Vector3( 0, 0, 2.5 )
-  // const pearScale = "0.3,0.3,0.3"
-  loader.load( 'models/pear.glb', gltf => onLoad( gltf, pearPosition ), onProgress, onError )
+    const pearPosition = new THREE.Vector3( 5, 0, 0 )
+    const pearScale = new THREE.Vector3(0.3,0.3,0.3)
+    loader.load( 'models/pear.glb', gltf => onLoad( gltf, pearPosition, pearScale ), onProgress, onError )
 
-  const applePosition = new THREE.Vector3( 7.5, 0, -10 )
-  loader.load( 'models/apple.glb', gltf => onLoad( gltf, applePosition ), onProgress, onError )
+    const applePosition = new THREE.Vector3( 6, 0, 0 )
+    const appleScale = new THREE.Vector3(0.01, 0.01, 0.01)
+    loader.load( 'models/apple.glb', gltf => onLoad( gltf, applePosition, appleScale ), onProgress, onError )
 
-  const pineapplePosition = new THREE.Vector3( 2, 0, 0 )
-  // const pineappleScale = "0.7,0.7,0.7"
-  loader.load( 'models/pineapple.glb', gltf => onLoad( gltf, pineapplePosition ), onProgress, onError )
+    const pineapplePosition = new THREE.Vector3( 7, 0, 0 )
+    const pineappleScale = new THREE.Vector3(0.7,0.7,0.7)
+    loader.load( 'models/pineapple.glb', gltf => onLoad( gltf, pineapplePosition, pineappleScale ), onProgress, onError )
 
-  const cherryPosition = new THREE.Vector3( 5, 0, 0 )
-  // const cherryScale = "0.5,0.5,0.5"
-  loader.load( 'models/cherry.glb', gltf => onLoad( gltf, cherryPosition ), onProgress, onError )
+    const cherryPosition = new THREE.Vector3( 8, 0, 0 )
+    const cherryScale = new THREE.Vector3(0.5,0.5,0.5)
+    loader.load( 'models/cherry.glb', gltf => onLoad( gltf, cherryPosition, cherryScale ), onProgress, onError )
 
-  const strawberryPosition = new THREE.Vector3( -5, 0, 0 )
-  // const strawberryScale = "0.07,0.07,0.07"
-  loader.load( 'models/strawberry.glb', gltf => onLoad( gltf, strawberryPosition ), onProgress, onError )
-}
+    const strawberryPosition = new THREE.Vector3( 20, 0, 0 )
+    const strawberryScale = new THREE.Vector3(0.07,0.07,0.07)
+    loader.load( 'models/strawberry.glb', gltf => onLoad( gltf, strawberryPosition, strawberryScale ), onProgress, onError )
+  }
 
-function update() {
-  const delta = clock.getDelta();
-  mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
-}
+  function update() {
+    const delta = clock.getDelta();
+    mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
+  }
 
-function render() {
-  renderer.render( scene, camera );
-}
+  function render() {
+    renderer.render( scene, camera );
+  }
 
 
-
-const animate = function () {
-  requestAnimationFrame( animate )
-  // if (cat = null) {
-
-  // }
-  // else {
-  //   cat.rotation.x += 0.01;
-  //   cat.rotation.y += 0.01;
-  // }
+  const animate = function () {
+    requestAnimationFrame( animate )
+    if (cat) {
+      cat.rotation.x += 0.01;
+      cat.translate.y += 1;
+    }
   // renderer.render( scene, camera )
 }
 

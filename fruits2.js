@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let controls
   let renderer
   let scene
-  let cat = null
-  const mixers = [];
-  const clock = new THREE.Clock();
+  let shapes = []
+  // const mixers = []
+  // const clock = new THREE.Clock()
 
   function init() {
     body = document.querySelector('body')
@@ -57,58 +57,51 @@ document.addEventListener('DOMContentLoaded', function() {
     const loader = new THREE.GLTFLoader()
     const onLoad = ( gltf, position, scale ) => {
       const model = gltf.scene.children[ 0 ]
-      cat = model
       model.position.copy(position)
       model.scale.copy(scale)
-      const animation = gltf.animations[ 0 ]
-
-      // const mixer = new THREE.AnimationMixer( model )
-      // mixers.push( mixer )
-
-      // const action = mixer.clipAction( animation )
-      // action.play()
+      shapes.push(model)
       scene.add( model )
     }
 
     const onProgress = () => {}
     const onError = ( errorMessage ) => { console.log( errorMessage ) }
 
-    const bananaPosition = new THREE.Vector3( 0, 0, 0 )
+    const bananaPosition = new THREE.Vector3( 0, 1, 0 )
     const bananaScale = new THREE.Vector3(0.01, 0.01, 0.01)
     loader.load( 'models/banana.glb', gltf => onLoad( gltf, bananaPosition, bananaScale), onProgress, onError )
 
-    const lemonPosition = new THREE.Vector3( 1, 0, 0)
+    const lemonPosition = new THREE.Vector3( 7.5, 0, -10)
     const lemonScale = new THREE.Vector3(0.8,0.8,0.8)
     loader.load( 'models/lemon.glb', gltf => onLoad( gltf, lemonPosition, lemonScale ), onProgress, onError )
 
-    const orangePosition = new THREE.Vector3( 4, 0, 0 )
+    const orangePosition = new THREE.Vector3( -10, 0, 0 )
     const orangeScale = new THREE.Vector3(0.3,0.3,0.3)
     loader.load( 'models/orange.glb', gltf => onLoad( gltf, orangePosition, orangeScale ), onProgress, onError )
 
-    const pearPosition = new THREE.Vector3( 5, 0, 0 )
+    const pearPosition = new THREE.Vector3( 0, 0, 2.5 )
     const pearScale = new THREE.Vector3(0.3,0.3,0.3)
     loader.load( 'models/pear.glb', gltf => onLoad( gltf, pearPosition, pearScale ), onProgress, onError )
 
-    const applePosition = new THREE.Vector3( 6, 0, 0 )
+    const applePosition = new THREE.Vector3( 7.5, 0, -10 )
     const appleScale = new THREE.Vector3(0.01, 0.01, 0.01)
     loader.load( 'models/apple.glb', gltf => onLoad( gltf, applePosition, appleScale ), onProgress, onError )
 
-    const pineapplePosition = new THREE.Vector3( 7, 0, 0 )
+    const pineapplePosition = new THREE.Vector3( 2, 0, 0 )
     const pineappleScale = new THREE.Vector3(0.7,0.7,0.7)
     loader.load( 'models/pineapple.glb', gltf => onLoad( gltf, pineapplePosition, pineappleScale ), onProgress, onError )
 
-    const cherryPosition = new THREE.Vector3( 8, 0, 0 )
+    const cherryPosition = new THREE.Vector3( 5, 0, 0 )
     const cherryScale = new THREE.Vector3(0.5,0.5,0.5)
     loader.load( 'models/cherry.glb', gltf => onLoad( gltf, cherryPosition, cherryScale ), onProgress, onError )
 
-    const strawberryPosition = new THREE.Vector3( 20, 0, 0 )
+    const strawberryPosition = new THREE.Vector3(-5, 0, 0)
     const strawberryScale = new THREE.Vector3(0.07,0.07,0.07)
     loader.load( 'models/strawberry.glb', gltf => onLoad( gltf, strawberryPosition, strawberryScale ), onProgress, onError )
   }
 
   function update() {
-    const delta = clock.getDelta();
-    mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
+    // const delta = clock.getDelta();
+    // mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
   }
 
   function render() {
@@ -116,11 +109,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
-  const animate = function () {
+  const animate = function(time) {
+    time *= 0.001
     requestAnimationFrame( animate )
-    if (cat) {
-      cat.rotation.x += 0.01;
-      cat.translate.y += 1;
+    if (shapes) {
+      shapes.forEach(function(shape) {
+        shape.position.set(
+          Math.cos(time * 1.2) * 5,
+          Math.sin(time * 1.1) * 5,
+          Math.sin(time * 1.1) * 5
+          )
+        shape.rotation.x += 0.01
+      })
+
     }
   // renderer.render( scene, camera )
 }

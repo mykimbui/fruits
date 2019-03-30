@@ -23,3 +23,10 @@ document.body.addEventListener("click", function(event) {
   const posTop = event.pageY
   placeImage(posLeft, posTop)
 })
+
+document.body.addEventListener("touchend", function(event) {
+  event.preventDefault()
+  const posLeft = event.pageX
+  const posTop = event.pageY
+  placeImage(posLeft, posTop)
+})

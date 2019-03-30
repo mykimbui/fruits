@@ -1,6 +1,6 @@
 'use strict'
 let initScene, render, _boxes = [], spawnBox, loader,
-renderer, scene, ground_material, ground, light, camera, group, iLikeItMovinMovin
+renderer, scene, ground_material, ground, light, camera, group
 
 initScene = function() {
   renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -51,7 +51,7 @@ initScene = function() {
 
   ground_material = Physijs.createMaterial(
     new THREE.MeshLambertMaterial({ color: '#dcf2f9', opacity: 0 }),
-      .8, // high friction
+      .2, // high friction
       .3 // low restitution
       )
 
@@ -76,7 +76,7 @@ initScene = function() {
 function loadModels({ box, model }) {
   let modelLink = model.link
   const scale = model.scale
-  const position = model.position
+  // const position = model.position
   const loader = new THREE.GLTFLoader()
   const onLoad = ( gltf, position, scale ) => {
     const loadedModel = gltf.scene.children[ 0 ]
@@ -98,6 +98,7 @@ function loadModels({ box, model }) {
 
   const onProgress = () => {}
   const onError = ( errorMessage ) => { console.log( errorMessage ) }
+  const position = new THREE.Vector3(0,0,0)
 
   loader.load( modelLink, gltf => onLoad( gltf, position, scale ), onProgress, onError )
 }
@@ -106,48 +107,39 @@ let getRandomModel = () => {
   let arr = [
   {
     link: 'models/strawberry.glb',
-    scale: new THREE.Vector3(0.07,0.07,0.07),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(0.07,0.07,0.07)
   },
   {
     link: 'models/lemon.glb',
-    scale: new THREE.Vector3(1.5,1.5,1.5),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(1.5,1.5,1.5)
   },
   {
     link: 'models/pear.glb',
-    scale: new THREE.Vector3(0.7,0.7,0.7),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(0.7,0.7,0.7)
   },
   {
     link: 'models/pineapple.glb',
-    scale: new THREE.Vector3(1,1,1),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(1,1,1)
   },
   {
     link: 'models/orange.glb',
-    scale: new THREE.Vector3(0.5,0.5,0.5),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(0.5,0.5,0.5)
   },
   {
     link: 'models/banana.glb',
-    scale: new THREE.Vector3(0.03, 0.03, 0.03),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(0.03, 0.03, 0.03)
   },
   {
     link: 'models/cherry.glb',
-    scale: new THREE.Vector3(0.7,0.7,0.7),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(0.7,0.7,0.7)
   },
   {
     link: 'models/apple.glb',
-    scale: new THREE.Vector3(0.03, 0.03, 0.03),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(0.03, 0.03, 0.03)
   },
   {
     link: 'models/grapes.glb',
-    scale: new THREE.Vector3(1,1,1),
-    position: new THREE.Vector3(-5, 0, 0)
+    scale: new THREE.Vector3(1,1,1)
   }
   ]
 
@@ -177,7 +169,6 @@ spawnBox = (function() {
       )
     box.collisions = 0
 
-    // loklok
     group.add(box)
 
     box.position.set(
@@ -201,7 +192,7 @@ spawnBox = (function() {
   }
 
   return function() {
-    setTimeout( createBox, 1000 )
+    setTimeout( createBox, 100 )
   }
 })()
 
@@ -212,7 +203,5 @@ render = function() {
 }
 
 window.onload = () => {
-  // lok
   initScene()
-  // loadModels({ box: false })
 }

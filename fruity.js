@@ -1,6 +1,6 @@
 'use strict'
 let initScene, render, _boxes = [], spawnBox, loader,
-renderer, scene, ground_material, ground, light, camera, group
+renderer, scene, ground_material, ground, light, camera, group, iLikeItMovinMovin
 
 initScene = function() {
   renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -25,12 +25,15 @@ initScene = function() {
     1,
     1000
     )
-  camera.position.set( 0, 0, -50 )
+  camera.position.set( 0, -10, -30 )
   camera.lookAt( scene.position )
   scene.add( camera )
 
-  light = new THREE.DirectionalLight( 0xFFFFFF )
-  light.position.set( 20, 40, -15 )
+  const ambientLight = new THREE.AmbientLight(0xcccccc)
+  scene.add(ambientLight)
+
+  light = new THREE.DirectionalLight(0xcccccc, 0.5)
+  light.position.set(100, 200, -200)
   light.target.position.copy( scene.position )
   light.castShadow = true
   light.shadow.camera.left = -60
@@ -70,28 +73,90 @@ initScene = function() {
   scene.simulate()
 }
 
-function loadModels() {
+function loadModels({ box, model }) {
+  let modelLink = model.link
+  const scale = model.scale
+  const position = model.position
   const loader = new THREE.GLTFLoader()
   const onLoad = ( gltf, position, scale ) => {
-    const model = gltf.scene.children[ 0 ]
-    model.position.copy(position)
-    model.scale.copy(scale)
-    // shapes.push(model)
-    // scene.add( model )
-    group.add(model)
+    const loadedModel = gltf.scene.children[ 0 ]
+    loadedModel.position.copy(position)
+    loadedModel.scale.copy(scale)
+    // shapes.push(loadedModel)
+    // scene.add( loadedModel )
+
+    let snyc = () => {
+      if (box) {
+        loadedModel.position.copy(box.position)
+        loadedModel.rotation.copy(box.rotation)
+      }
+    }
+    snyc()
+    setInterval(snyc, 1)
+    group.add(loadedModel)
   }
 
   const onProgress = () => {}
   const onError = ( errorMessage ) => { console.log( errorMessage ) }
 
-  const strawberryPosition = new THREE.Vector3(-5, 0, 0)
-  const strawberryScale = new THREE.Vector3(0.07,0.07,0.07)
-  loader.load( 'models/strawberry.glb', gltf => onLoad( gltf, strawberryPosition, strawberryScale ), onProgress, onError )
+  loader.load( modelLink, gltf => onLoad( gltf, position, scale ), onProgress, onError )
+}
+
+let getRandomModel = () => {
+  let arr = [
+  {
+    link: 'models/strawberry.glb',
+    scale: new THREE.Vector3(0.07,0.07,0.07),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/lemon.glb',
+    scale: new THREE.Vector3(1.5,1.5,1.5),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/pear.glb',
+    scale: new THREE.Vector3(0.7,0.7,0.7),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/pineapple.glb',
+    scale: new THREE.Vector3(1,1,1),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/orange.glb',
+    scale: new THREE.Vector3(0.5,0.5,0.5),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/banana.glb',
+    scale: new THREE.Vector3(0.03, 0.03, 0.03),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/cherry.glb',
+    scale: new THREE.Vector3(0.7,0.7,0.7),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/apple.glb',
+    scale: new THREE.Vector3(0.03, 0.03, 0.03),
+    position: new THREE.Vector3(-5, 0, 0)
+  },
+  {
+    link: 'models/grapes.glb',
+    scale: new THREE.Vector3(1,1,1),
+    position: new THREE.Vector3(-5, 0, 0)
+  }
+  ]
+
+  return arr[Math.floor(Math.random() * arr.length)]
 }
 
 spawnBox = (function() {
 
-  let sphereGeometry = new THREE.SphereGeometry( 5, 32, 32 ),
+  let sphereGeometry = new THREE.SphereGeometry( 1, 32, 32 ),
 
   createBox = function() {
     let box, material
@@ -100,17 +165,20 @@ spawnBox = (function() {
       new THREE.MeshLambertMaterial({
         color: 0xffffff,
         transparent: true,
-        opacity: 0.3
+        opacity: 0
       }),
           .6, // medium friction
           .3 // low restitution
           )
-    group.add(sphereGeometry)
+
     box = new Physijs.SphereMesh(
       sphereGeometry,
       material
       )
     box.collisions = 0
+
+    // loklok
+    group.add(box)
 
     box.position.set(
       Math.random() * 15 - 7.5,
@@ -127,6 +195,9 @@ spawnBox = (function() {
     box.castShadow = true
     box.addEventListener( 'ready', spawnBox )
     scene.add( box )
+
+    let randomModel = getRandomModel()
+    loadModels({ box, model: randomModel, modelLink: randomModel.link })
   }
 
   return function() {
@@ -136,7 +207,12 @@ spawnBox = (function() {
 
 render = function() {
   requestAnimationFrame( render )
+
   renderer.render( scene, camera )
 }
 
-window.onload = initScene
+window.onload = () => {
+  // lok
+  initScene()
+  // loadModels({ box: false })
+}

@@ -7,6 +7,15 @@ canvas {
   height: 100%
 }
 
+nav {
+ position: fixed;
+ top: 30px;
+ right: 30px;
+ font-family: 'badd-mono';
+ font-size: 20px;
+ z-index: 10
+}
+
 @keyframes fadein {
   0% {opacity: 0;}
   100% {opacity: 1;}
@@ -21,11 +30,16 @@ img {
   position: absolute;
   animation: fadein 0.5s;
   pointer-events: none;
-  z-index: 10;
+  z-index: 1;
 }
 
 @media only screen and (max-width: 600px) {
   img {
     width: 800px;
   }
+}
+
+@font-face {
+  font-family: 'badd-mono';
+  src: url('fonts/Badd-Mono-Regular.otf');
 }

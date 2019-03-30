@@ -23,3 +23,9 @@ img {
   pointer-events: none;
   z-index: 10;
 }
+
+@media only screen and (max-width: 600px) {
+  img {
+    width: 800px;
+  }
+}

@@ -75,6 +75,9 @@ img {
   img {
     width: 800px;
   }
+  #writing {
+    width: auto !important;
+  }
 }
 
 @font-face {

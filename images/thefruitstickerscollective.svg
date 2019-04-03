@@ -6,7 +6,7 @@
     stroke-dasharray: 2400;
     stroke-dashoffset: 2400;
     stroke-width: 1;
-    animation: write 10s linear forwards;
+    animation: write 5s linear forwards;
     }
 
     @keyframes write {

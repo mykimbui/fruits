@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  overflow-x:hidden;
+  background-color: #fffdf2;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100vw;
+}
+
+.sticker {
+  width: 100px;
+  margin: 0 auto;
+  height: 100px;
+  padding-top: 45px;
+}
+
+nav a {
+  text-decoration: none;
+  color:black;
+  pointer-events: auto;
+}
+
+@font-face {
+  font-family: 'badd-mono';
+  src: url('fonts/Badd-Mono-Regular.otf');
+}
+
+nav {
+ position: fixed;
+ bottom: 30px;
+ right: 15px;
+ font-family: 'badd-mono';
+ font-size: 20px;
+ z-index: 10;
+}

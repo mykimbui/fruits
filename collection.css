@@ -4,11 +4,12 @@ body {
   background-color: #fffdf2;
 }
 
-
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100vw;
+/*  background: rgb(255,255,255);
+background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,246,0,1) 100%);*/
 }
 
 .sticker {
@@ -16,6 +17,10 @@ body {
   margin: 0 auto;
   height: 100px;
   padding-top: 45px;
+}
+
+.bg {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,249,85,1) 100%);
 }
 
 nav a {

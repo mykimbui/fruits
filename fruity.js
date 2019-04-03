@@ -82,8 +82,6 @@ function loadModels({ box, model }) {
     const loadedModel = gltf.scene.children[ 0 ]
     loadedModel.position.copy(position)
     loadedModel.scale.copy(scale)
-    // shapes.push(loadedModel)
-    // scene.add( loadedModel )
 
     let snyc = () => {
       if (box) {
@@ -155,7 +153,7 @@ spawnBox = (function() {
 
     material = Physijs.createMaterial(
       new THREE.MeshLambertMaterial({
-        color: 0xffffff,
+        // color: 0xffffff,
         transparent: true,
         opacity: 0
       }),
@@ -204,7 +202,6 @@ render = function() {
 window.addEventListener("resize", function () {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
-
   renderer.setSize(window.innerWidth, window.innerHeight)
 })
 
